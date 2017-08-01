@@ -1,0 +1,17 @@
+{
+    "name": "pixiucz/invoices",
+    "description": "Empty",
+    "type": "package",
+    "require": {
+        "barryvdh/laravel-dompdf": "^0.8.0",
+        "twig/twig": "~2.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pixiucz",
+            "email": "info@pixiu.cz"
+        }
+    ],
+    "minimum-stability": "dev"
+}
