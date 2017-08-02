@@ -41,7 +41,7 @@ class InvoiceGenerator extends Model
         }
     }
 
-    public function generateInvoice(string $templatePath, array $variables, $forcedInvoiceNumber = null)
+    public function generateInvoice(array $variables, string $templatePath = null, $forcedInvoiceNumber = null)
     {
         $invoiceNumber = $forcedInvoiceNumber;
         if (!$invoiceNumber){
@@ -56,10 +56,16 @@ class InvoiceGenerator extends Model
         return $pdf;
     }
 
-    private function prepareTwig($path)
+    private function prepareTwig($templatePath)
     {
-        $fileName = basename($path);
-        $path = dirname($path);
+        $fileName = "invoice.htm";
+        $path = __DIR__ . "/views/";
+
+        if ($templatePath ) {
+            $fileName = basename($templatePath);
+            $path = dirname($templatePath);
+        }
+
         $loader = new Twig_Loader_Filesystem($path);
         $twig = new Twig_Environment($loader);
         return $twig->load($fileName);
