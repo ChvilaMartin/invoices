@@ -12,5 +12,10 @@
             "name": "Pixiucz",
             "email": "info@pixiu.cz"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Pixiucz\\Invoices\\": "src"
+        }
+    }
 }

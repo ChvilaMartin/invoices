@@ -50,7 +50,9 @@ class InvoiceGenerator extends Model
         $variables['invoice_number'] = $invoiceNumber;
 
         $twig = $this->prepareTwig($templatePath);
-        $pdf = $this->renderPdf($twig, $variables);
+
+        // Temporary error silencing
+        $pdf = @$this->renderPdf($twig, $variables);
 
         return [
             'invoice_number' => $invoiceNumber,
