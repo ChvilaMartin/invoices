@@ -45,7 +45,15 @@ class InvoiceGenerator extends Model
     {
         $invoiceNumber = $forcedInvoiceNumber;
         if (!$invoiceNumber){
-            $invoiceNumber = ($this->invoiceYear * 1000000) + $this->getInvoiceNumber();
+            $currentInvoiceNumber = $this->getInvoiceNumber();
+            // $invoiceNumber = ($this->invoiceYear * 1000000) + $this->getInvoiceNumber();
+            $numberOfDigits = (int) strlen($currentInvoiceNumber);
+
+            if ($numberOfDigits < 3) { $numberOfDigits = 3; }
+            ++$numberOfDigits;
+
+            $invoiceNumber = ($this->invoiceYear * pow(10, $numberOfDigits)) + $currentInvoiceNumber;
+             
         }
         $variables['invoice_number'] = $invoiceNumber;
 
