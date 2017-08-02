@@ -1,7 +1,7 @@
 ## Installation
 - Require package via composer
 ```
-composer require pixiucz/invoices=dev-master
+composer require pixiucz/invoices
 ```
 - And then register `InvoicesServiceProvider` in your `config\app.php` (laravel) or in boot method of your October's `Plugin.php`
 ```
