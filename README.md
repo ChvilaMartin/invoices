@@ -12,7 +12,7 @@ Pixiucz\Invoices\InvoicesServiceProvider::class,
 ## Basic usage
 - Once instantiated, `InvoiceGenerator` provides public method `generateInvoice`
 - This method requires 2 paramteres
-1. **String** path to your `htm` file that will serve as template. This template should use **Twig** syntax and at very least define `{{ invoice_number }}` where generated invoice number will be printed.
+1. **String** path to your `htm` file that will serve as template. This template should use [Twig syntax](https://twig.symfony.com/doc/2.x/templates.html) and at very least define `{{ invoice_number }}` where generated invoice number will be printed.
   
 2. **Array** of all variables that you want to be printed in provided tempalte.
 
