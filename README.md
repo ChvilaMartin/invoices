@@ -23,9 +23,10 @@ Pixiucz\Invoices\InvoicesServiceProvider::class,
 ```php
 public function example(Pixiucz\Invoices\InvoiceGenerator $invoiceGenerator)
 {
+  $invoice = $invoiceGenerator->generateInvoice($templateVariables);
   $invoice = $invoiceGenerator->generateInvoice($templateVariables, 'path/to/your/template.htm');
+  $invoice = $invoiceGenerator->generateInvoice($templateVariables, 'path/to/your/template.htm', 12345);
+  $invoice = $invoiceGenerator->generateInvoice($templateVariables, null, 12345);
   return $invoice['pdf'];
 }
 ```
-
-### $variables structure to fill default invoice structure
