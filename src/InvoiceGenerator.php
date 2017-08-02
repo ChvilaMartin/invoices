@@ -86,7 +86,7 @@ class InvoiceGenerator extends Model
     private function renderPdf($twig, $variables)
     {
         $pdf = app('dompdf.wrapper');
-        $pdf->loadHTML($twig->render($variables));
+        $pdf->setOptions(['isFontSubsettingEnabled' => true, 'isRemoteEnabled' => true])->loadHTML($twig->render($variables));
         return $pdf->stream();
     }
 
