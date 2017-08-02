@@ -4,7 +4,7 @@
     "type": "package",
     "require": {
         "barryvdh/laravel-dompdf": "^0.8.0",
-        "twig/twig": "~2.0"
+        "twig/twig": "1.33.*"
     },
     "license": "MIT",
     "authors": [
