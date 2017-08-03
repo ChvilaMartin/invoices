@@ -14,6 +14,8 @@ class CreatePixiuInvoicesTable extends Migration
     public function up()
     {
         Schema::create('pixiu_invoices', function (Blueprint $table) {
+            $table->string('name');
+            $table->string('pattern');
             $table->integer('invoice_number')->unsigned();
             $table->integer('actual_year')->unsigned();
         });
