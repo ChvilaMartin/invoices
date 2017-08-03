@@ -14,46 +14,38 @@ class InvoiceGenerator extends Model
     public $incrementing = false;
     protected $primaryKey = null;
 
-    /**
-     * Actual year used for invoice.
-     * @var integer
-     */
-    private $invoiceYear;
-
+    private $patternName;
 
     public function __construct()
     {
         parent::__construct();
 
-        $recordExists = DB::table('pixiu_invoices')->first();
+        $invoiceLines = DB::table('pixiu_invoices')->get();
 
-        if (!$recordExists) {
-            DB::table('pixiu_invoices')->insert([
-                'actual_year' => Carbon::now()->year,
-                'invoice_number' => 0
-            ]);
+        foreach ($invoiceLines as $invoiceLine) {
+            if ($invoiceLine->actual_year != Carbon::now()->year) {
+                $this->setActualYear();
+                $this->resetInvoiceNumber();
+            }
         }
-        $this->invoiceYear = DB::table('pixiu_invoices')->first()->actual_year;
-
-        if (!($this->invoiceYear) OR ($this->invoiceYear != Carbon::now()->year)) {
-            $this->invoiceYear = $this->setActualYear();
-            $this->resetInvoiceNumber();
-        }
+        
     }
 
-    public function generateInvoice(array $variables, string $templatePath = null, $forcedInvoiceNumber = null)
+    public function createPattern($name, $pattern)
+    {
+        DB::table('pixiu_invoices')->insert([
+            'name' => $name,
+            'pattern' => $pattern,
+            'actual_year' => Carbon::now()->year,
+            'invoice_number' => 0
+        ]);
+    }
+
+    public function generateInvoice($lineName, array $variables, string $templatePath = null, $forcedInvoiceNumber = null)
     {
         $invoiceNumber = $forcedInvoiceNumber;
         if (!$invoiceNumber){
-            $currentInvoiceNumber = $this->getInvoiceNumber();
-            // $invoiceNumber = ($this->invoiceYear * 1000000) + $this->getInvoiceNumber();
-            $numberOfDigits = (int) strlen($currentInvoiceNumber);
-
-            if ($numberOfDigits < 3) { $numberOfDigits = 3; }
-            ++$numberOfDigits;
-
-            $invoiceNumber = ($this->invoiceYear * pow(10, $numberOfDigits)) + $currentInvoiceNumber;
-             
+            $invoiceNumber = $this->getInvoiceNumber($lineName);
         }
         $variables['invoice_number'] = $invoiceNumber;
 
@@ -101,17 +93,18 @@ class InvoiceGenerator extends Model
         return Carbon::now()->year;
     }
 
-    private function getInvoiceNumber()
+    public function getInvoiceNumber($lineName)
     {
-        DB::table('pixiu_invoices')->increment('invoice_number');
-        return DB::table('pixiu_invoices')->first()->invoice_number;
-    }
+        DB::table('pixiu_invoices')->where('name', $lineName)->increment('invoice_number');
+        $invoiceLine = DB::table('pixiu_invoices')->where('name', $lineName)->first();
 
-    public function debug() // delete once published
-    {
-        return [
-            'invoice number' => DB::table('pixiu_invoices')->first()->invoice_number,
-            'actual_year' => DB::table('pixiu_invoices')->first()->actual_year
-        ];
+        $year = $invoiceLine->actual_year;
+        $number = $invoiceLine->invoice_number;
+        $pattern = $invoiceLine->pattern;
+
+        return strtr($pattern, [
+            '{year}' => $invoiceLine->actual_year,
+            '{number}' => $invoiceLine->invoice_number
+        ]);
     }
 }

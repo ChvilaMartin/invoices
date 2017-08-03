@@ -69,7 +69,11 @@
 <body style="padding: 5%;">
 
 <div style="width: 50%; display: inline-block;">
-    <h1>Faktura - Daňový doklad č.: {{ invoice_number }} </h1>
+    {% if isRefund %}
+        <h1> Opravný daňový doklad k faktuře.: {{ invoice_number }} </h1>
+    {% else %}
+        <h1> Faktura - Daňový doklad: {{ invoice_number }} </h1>
+    {% endif %}
 </div>
 <div style="text-align: right; width: 49.4%; display: inline-block;">
     <h1> {{ year }} </h1>
