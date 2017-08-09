@@ -39,12 +39,9 @@ php artisan invoices:MakePattern “name_of_pattern” “pattern”
 
 ### Example
 ```php
-public function example(Pixiucz\Invoices\InvoiceGenerator $invoiceGenerator)
+public function handleInvoice(Pixiucz\Invoices\InvoiceGenerator $invoiceGenerator, $templateVariables)
 {
-  $invoice = $invoiceGenerator->generateInvoice($templateVariables);
-  $invoice = $invoiceGenerator->generateInvoice($templateVariables, 'path/to/your/template.htm');
-  $invoice = $invoiceGenerator->generateInvoice($templateVariables, 'path/to/your/template.htm', 12345);
-  $invoice = $invoiceGenerator->generateInvoice($templateVariables, null, 12345);
+  $invoice = $invoiceGenerator->generateInvoice("eshop", $templateVariables);
   return $invoice['pdf'];
 }
 ```
