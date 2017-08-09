@@ -46,7 +46,7 @@ public function handleInvoice(Pixiucz\Invoices\InvoiceGenerator $invoiceGenerato
 }
 ```
 
-### Format of array with variables (all optional)
+## Format of array with variables (all optional)
 - Company
 	- name
 	- zip
