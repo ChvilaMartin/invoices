@@ -11,14 +11,7 @@ class InvoicesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /*
-            October CMS runs on Laravel 5.1 and doesnt support this method
-            For now, you have to create 'pixiu_invoices' table on your own
-            (use file from migrations folder for Schema builder)
-        */
-
-
-        // $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
     }
 
     /**
@@ -32,5 +25,12 @@ class InvoicesServiceProvider extends ServiceProvider
         $this->app->bind('InvoiceGenerator', function() {
             return new \Pixiucz\Invoices\InvoiceGenerator();
         });
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \Pixiucz\Invoices\Artisan\Migrate::class,
+                \Pixiucz\Invoices\Artisan\MakePattern::class
+            ]);
+        }
     }
 }
