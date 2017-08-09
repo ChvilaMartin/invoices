@@ -21,7 +21,10 @@ php artisan invoices:migrate
 php artisan invoices:MakePattern “name_of_pattern” “pattern”
 ```
 - Your pattern have to be string with two slots -> {year} where correct year will be inserted and {number} for invoice number.
-  - Example `My-eshop-invoice-{year}/{number}`
+  - Example: 
+  ```
+  php artisan invoices:MakePattern "eshop" "My-eshop-invoice-{year}/{number}"
+  ```
 
 ## Basic usage
 - Once instantiated, `InvoiceGenerator` provides public method `generateInvoice`
