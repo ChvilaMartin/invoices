@@ -45,3 +45,55 @@ public function handleInvoice(Pixiucz\Invoices\InvoiceGenerator $invoiceGenerato
   return $invoice['pdf'];
 }
 ```
+
+### Format of array with variables (all optional)
+- Company
+	- name
+	- zip
+	- address
+	- ico
+	- dic
+	- ic_dph
+	- bank
+	- account_number
+	- iban
+	- swift
+- delivery_address
+	- first_name
+	- last_name
+	- address
+	- zip
+	- city
+	- country
+- billing_address
+	- first_name
+	- last_name
+	- address
+	- zip
+	- city
+	- country
+	- ic
+	- dic
+- updated_at
+- variants 
+	- variant
+		- ean
+		- name
+		- quantity
+		- price
+		- price_without_tax
+		- sum_without_tax
+		- tax
+		- sum
+	- …
+- delivery_option
+	- name
+	- price
+	- price_without_tax
+	- tax
+- sum 
+	- sum_without_tax
+	- sum_tax_only
+	- sum
+- currency (currency symbol)
+- status [‘canceled’, ‘refunded’] -> leave empty when neither of these
