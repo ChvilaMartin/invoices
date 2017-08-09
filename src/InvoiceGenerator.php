@@ -14,6 +14,8 @@ class InvoiceGenerator extends Model
     public $incrementing = false;
     protected $primaryKey = null;
 
+    private $invoiceLine;
+
     private $patternName;
 
     public function __construct()
@@ -31,16 +33,6 @@ class InvoiceGenerator extends Model
         
     }
 
-    public function createPattern($name, $pattern)
-    {
-        DB::table('pixiu_invoices')->insert([
-            'name' => $name,
-            'pattern' => $pattern,
-            'actual_year' => Carbon::now()->year,
-            'invoice_number' => 0
-        ]);
-    }
-
     public function generateInvoice($lineName, array $variables, string $templatePath = null, $forcedInvoiceNumber = null)
     {
         $invoiceNumber = $forcedInvoiceNumber;
@@ -56,7 +48,9 @@ class InvoiceGenerator extends Model
 
         return [
             'invoice_number' => $invoiceNumber,
-            'pdf' => $pdf
+            'pdf' => $pdf,
+            'serial_number' => $this->invoiceLine->invoice_number,
+            'year' => $this->invoiceLine->actual_year
         ];
     }
 
@@ -98,8 +92,8 @@ class InvoiceGenerator extends Model
         DB::table('pixiu_invoices')->where('name', $lineName)->increment('invoice_number');
         $invoiceLine = DB::table('pixiu_invoices')->where('name', $lineName)->first();
 
-        $year = $invoiceLine->actual_year;
-        $number = $invoiceLine->invoice_number;
+        $this->invoiceLine = $invoiceLine;
+
         $pattern = $invoiceLine->pattern;
 
         return strtr($pattern, [

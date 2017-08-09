@@ -69,10 +69,10 @@
 <body style="padding: 5%;">
 
 <div style="width: 50%; display: inline-block;">
-    {% if isRefund %}
-        <h1> Opravný daňový doklad k faktuře.: {{ invoice_number }} </h1>
+    {% if status == 'refunded' %}
+        <h1> Opravný daňový doklad k faktuře.: <br> {{ invoice_number }} </h1>
     {% else %}
-        <h1> Faktura - Daňový doklad: {{ invoice_number }} </h1>
+        <h1> Faktura - Daňový doklad: <br> {{ invoice_number }} </h1>
     {% endif %}
 </div>
 <div style="text-align: right; width: 49.4%; display: inline-block;">
@@ -188,7 +188,7 @@
         <td style="text-align: right;"> {{ variant.sum }} </td>
     </tr>
     {% endfor %}
-    {% if status != 'canceled' %}
+    {% if status != 'canceled' and status != 'refunded' %}
     <tr>
         <td> 0000 </td>
         <td> Doprava: {{ delivery_option.name }} </td>
@@ -214,18 +214,18 @@
         </tr>
         <tr>
             <td>Základ DPH</td>
-            <td>{{ sum_without_tax }}</td>
+            <td>{{ sum.sum_without_tax }}</td>
         </tr>
         <tr>
             <td>DPH</td>
-            <td>{{ sum_tax_only }}</td>
+            <td>{{ sum.sum_tax_only }}</td>
         </tr>
         <tr>
             <td></td>
         </tr>
         <tr>
             <td>Celkem k úhradě [{{currency}}]</td>
-            <td class="bordered-cell"> {{ sum }} </td>
+            <td class="bordered-cell"> {{ sum.sum }} </td>
         </tr>
     </table>
 </div>
