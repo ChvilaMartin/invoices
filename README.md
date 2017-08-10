@@ -39,11 +39,7 @@ php artisan invoices:MakePattern “name_of_pattern” “pattern”
 
 ### Example
 ```php
-public function handleInvoice(Pixiucz\Invoices\InvoiceGenerator $invoiceGenerator, $templateVariables)
-{
-  $invoice = $invoiceGenerator->generateInvoice("eshop", $templateVariables);
-  return $invoice['pdf'];
-}
+$invoice = $invoiceGenerator->generateInvoice("eshop", $templateVariables);
 ```
 
 ## Format of array with variables (all optional)
