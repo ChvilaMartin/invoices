@@ -14,11 +14,15 @@
         }
     ],
     "autoload": {
-        "classmap": [
-            "database"
-        ],
         "psr-4": {
             "Pixiucz\\Invoices\\": "src"
         }
-    }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Pixiucz\\Invoices\\InvoicesServiceProvider"
+            ]
+        }
+    },
 }
