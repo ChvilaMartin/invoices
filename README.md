@@ -28,9 +28,9 @@ php artisan invoices:MakePattern “name_of_pattern” “pattern”
 
 ## Basic usage
 - Once instantiated, `InvoiceGenerator` provides public method `generateInvoice`
-- This method requires one parameter, two other are optional
+- This method requires two parameters, two other are optional
 
-1. **String** name of pattern (invoice line)
+1. **String** name of pattern (invoice line) (**required**)
 1. **Array** of all variables that you want to be printed in provided tempalte. (**required**)
 2. **String** path to your `htm` file that will serve as template. This template should use [Twig syntax](https://twig.symfony.com/doc/2.x/templates.html) and at very least define `{{ invoice_number }}` where generated invoice number will be printed. (**optional**)
 3. **int** invoice number, this will bypass inner invoice number generator (**optional**)
