@@ -48,9 +48,7 @@ class InvoiceGenerator extends Model
 
         return [
             'invoice_number' => $invoiceNumber,
-            'pdf' => $pdf,
-            'serial_number' => $this->invoiceLine->invoice_number,
-            'year' => $this->invoiceLine->actual_year
+            'pdf' => $pdf
         ];
     }
 
