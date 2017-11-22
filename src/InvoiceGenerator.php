@@ -33,7 +33,7 @@ class InvoiceGenerator extends Model
         
     }
 
-    public function generateInvoice($lineName, array $variables, string $templatePath = null, $forcedInvoiceNumber = null)
+    public function generateInvoice($lineName, array $variables, $templatePath = null, $forcedInvoiceNumber = null)
     {
         $invoiceNumber = $forcedInvoiceNumber;
         if (!$invoiceNumber){
@@ -67,11 +67,18 @@ class InvoiceGenerator extends Model
         return $twig->load($fileName);
     }
 
-    private function renderPdf($twig, $variables)
+    private function renderPdf($twig, array $variables)
     {
         $pdf = app('dompdf.wrapper');
-        $pdf->setOptions(['isFontSubsettingEnabled' => true, 'isRemoteEnabled' => true])->loadHTML($twig->render($variables));
+        $html = $twig->render($variables);
+
+        $html = str_replace("\n", "", $html);
+        $html = str_replace("\r", "", $html);
+
+        $pdf->setOptions(['isFontSubsettingEnabled' => true, 'isRemoteEnabled' => true])->loadHTML($html);
+
         return $pdf->stream();
+
     }
 
     private function resetInvoiceNumber()
@@ -87,8 +94,13 @@ class InvoiceGenerator extends Model
 
     public function getInvoiceNumber($lineName)
     {
-        DB::table('pixiu_invoices')->where('name', $lineName)->increment('invoice_number');
         $invoiceLine = DB::table('pixiu_invoices')->where('name', $lineName)->first();
+
+        if (!$invoiceLine) {
+            throw new \Exception('Invoice line \'' . $lineName . ' \' not found. Did you create one?');
+        }
+
+        DB::table('pixiu_invoices')->where('name', $lineName)->increment('invoice_number');
 
         $this->invoiceLine = $invoiceLine;
 

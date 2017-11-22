@@ -67,12 +67,11 @@
     </style>
 </head>
 <body style="padding: 5%;">
-
 <div style="width: 50%; display: inline-block;">
     {% if status == 'refunded' %}
-        <h1> Opravný daňový doklad k faktuře.: <br> {{ invoice_number }} </h1>
+    <h1> Opravný daňový doklad k faktuře.: <br> {{ invoice_number }} </h1>
     {% else %}
-        <h1> Faktura - Daňový doklad: <br> {{ invoice_number }} </h1>
+    <h1> Faktura - Daňový doklad: <br> {{ invoice_number }} </h1>
     {% endif %}
 </div>
 <div style="text-align: right; width: 49.4%; display: inline-block;">
@@ -229,12 +228,13 @@
         </tr>
     </table>
 </div>
-    {% if status == 'canceled' %}
-    <div style="text-align: left; width: 100%; display: inline-block; color: darkred; font-size: 45px;">
-        STORNOVÁNO
-    </div>
-    {% endif %}
+{% if status == 'canceled' %}
+<div style="text-align: left; width: 100%; display: inline-block; color: darkred; font-size: 45px;">
+    STORNOVÁNO
 </div>
-
+{% endif %}
+</div>
+<div style="display: inline-block; width: 100%;">
+</div>
 </body>
 </html>
