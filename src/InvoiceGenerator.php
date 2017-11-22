@@ -6,19 +6,23 @@ use Barryvdh\DomPDF;
 use Illuminate\Support\Facades\DB;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
+use Pixiucz\Invoices\Renderer;
 
 class InvoiceGenerator extends Model
 {
     protected $table = "pixiu_invoices";
+
     public $timestamps = false;
     public $incrementing = false;
     protected $primaryKey = null;
+
+    private $renderer;
 
     private $invoiceLine;
 
     private $patternName;
 
-    public function __construct()
+    public function __construct(Renderer $renderer)
     {
         parent::__construct();
 
@@ -30,6 +34,8 @@ class InvoiceGenerator extends Model
                 $this->resetInvoiceNumber();
             }
         }
+
+        $this->renderer = $renderer;
         
     }
 
@@ -41,44 +47,13 @@ class InvoiceGenerator extends Model
         }
         $variables['invoice_number'] = $invoiceNumber;
 
-        $twig = $this->prepareTwig($templatePath);
-
         // Temporary error silencing
-        $pdf = @$this->renderPdf($twig, $variables);
+        $pdf = @$this->renderer->renderPdf($variables, $templatePath);
 
         return [
             'invoice_number' => $invoiceNumber,
             'pdf' => $pdf
         ];
-    }
-
-    private function prepareTwig($templatePath)
-    {
-        $fileName = "invoice.htm";
-        $path = __DIR__ . "/views/";
-
-        if ($templatePath ) {
-            $fileName = basename($templatePath);
-            $path = dirname($templatePath);
-        }
-
-        $loader = new Twig_Loader_Filesystem($path);
-        $twig = new Twig_Environment($loader);
-        return $twig->load($fileName);
-    }
-
-    private function renderPdf($twig, array $variables)
-    {
-        $pdf = app('dompdf.wrapper');
-        $html = $twig->render($variables);
-
-        $html = str_replace("\n", "", $html);
-        $html = str_replace("\r", "", $html);
-
-        $pdf->setOptions(['isFontSubsettingEnabled' => true, 'isRemoteEnabled' => true])->loadHTML($html);
-
-        return $pdf->stream();
-
     }
 
     private function resetInvoiceNumber()
