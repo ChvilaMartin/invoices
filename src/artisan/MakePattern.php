@@ -12,14 +12,14 @@ class MakePattern extends Command
      *
      * @var string
      */
-    protected $signature = 'invoices:MakePattern {name} {pattern}';
+    protected $signature = 'invoices:MakePattern {name (name of pattern)} {pattern (including {year} & {number} in pattern string)}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Creates named pattern for invoice lines. Name of pattern is required as first parameter for Invoice Generator';
+    protected $description = '<name> <pattern>: name ex.: \'eShopInvoice\' - pattern ex.: \'invoice-{year}/{number} \'';
 
     /**
      * Create a new command instance.
