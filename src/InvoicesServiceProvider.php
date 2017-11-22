@@ -23,7 +23,7 @@ class InvoicesServiceProvider extends ServiceProvider
     {
         $this->app->register(\Barryvdh\DomPDF\ServiceProvider::class);
         $this->app->bind('InvoiceGenerator', function() {
-            return new \Pixiucz\Invoices\InvoiceGenerator();
+            return new \Pixiucz\Invoices\InvoiceGenerator(new Renderer());
         });
 
         if ($this->app->runningInConsole()) {
