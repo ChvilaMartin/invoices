@@ -18,12 +18,12 @@ php artisan invoices:migrate
 (this command will migrate only package’s table)
 - You have to create at least one named pattern, that will be used on invoices. You can create pattern using
 ```
-php artisan invoices:MakePattern “name_of_pattern” “pattern”
+php artisan invoices:makePattern “name_of_pattern” “pattern”
 ```
 - Your pattern have to be string with two slots -> {year} where correct year will be inserted and {number} for invoice number.
   - Example: 
   ```
-  php artisan invoices:MakePattern "eshop" "My-eshop-invoice-{year}/{number}"
+  php artisan invoices:makePattern "eshop" "My-eshop-invoice-{year}/{number}"
   ```
 
 ## Basic usage

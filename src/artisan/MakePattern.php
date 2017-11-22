@@ -12,7 +12,7 @@ class MakePattern extends Command
      *
      * @var string
      */
-    protected $signature = 'invoices:MakePattern {name} {pattern}';
+    protected $signature = 'invoices:makePattern {name} {pattern}';
 
     /**
      * The console command description.
