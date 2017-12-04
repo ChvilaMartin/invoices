@@ -38,12 +38,39 @@ class MakePattern extends Command
      */
     public function handle()
     {
+        $exists = \DB::table('pixiu_invoices')->where('name', $this->argument('name'))->first();
+
+        if (isset($exists)) {
+            $this->error('Pattern with this name already exists');
+            return;
+        }
+
+        if (!$this->isPatternCorrect($this->argument('pattern'))){
+            $this->error('Pattern not inserted');
+            return;
+        }
+
         \DB::table('pixiu_invoices')->insert([
             'name' => $this->argument('name'),
             'pattern' => $this->argument('pattern'),
             'actual_year' => Carbon::now()->year,
-            'invoice_number' => 0
+            'invoice_number' => 1
         ]);
         $this->info('Inserted pattern ' . $this->argument('name'));
+    }
+
+    private function isPatternCorrect(string $pattern)
+    {
+        if (!preg_match('{year}', $pattern)){
+            $this->error('Missing {year} argument in pattern');
+            return false;
+        }
+
+        if (!preg_match('{number}', $pattern)){
+            $this->error('Missing {number} argument in pattern');
+            return false;
+        }
+
+        return true;
     }
 }
