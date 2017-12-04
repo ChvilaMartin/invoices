@@ -30,8 +30,8 @@ class InvoiceGenerator extends Model
 
         foreach ($invoiceLines as $invoiceLine) {
             if ($invoiceLine->actual_year != Carbon::now()->year) {
-                $this->setActualYear();
-                $this->resetInvoiceNumber();
+                $this->setActualYear($invoiceLine->name);
+                $this->resetInvoiceNumber($invoiceLine->name);
             }
         }
 
@@ -56,14 +56,14 @@ class InvoiceGenerator extends Model
         ];
     }
 
-    private function resetInvoiceNumber()
+    private function resetInvoiceNumber($lineName)
     {
-        DB::table('pixiu_invoices')->update(['invoice_number' => 0]);
+        DB::table('pixiu_invoices')->where('name', $lineName)->update(['invoice_number' => 1]);
     }
 
-    private function setActualYear()
+    private function setActualYear($lineName)
     {
-        DB::table('pixiu_invoices')->update(['actual_year' => Carbon::now()->year]);
+        DB::table('pixiu_invoices')->where('name', $lineName)->update(['actual_year' => Carbon::now()->year]);
         return Carbon::now()->year;
     }
 
